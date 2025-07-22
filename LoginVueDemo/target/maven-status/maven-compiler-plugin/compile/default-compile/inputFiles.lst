@@ -1,0 +1,16 @@
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\mapper\BrandMapper.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\mapper\UserMapper.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\pojo\Brand.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\pojo\User.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\service\BrandService.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\service\UserService.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\util\CheckCodeUtil.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\util\SqlSessionFactoryUtils.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\addServlet.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\checkCodeServlet.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\filter\LoginFilter.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\loginServlet.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\registerServlet.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\SelectAllServlet.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\SelectByIdServlet.java
+C:\Users\whu_z\Desktop\LoginDemo\src\main\java\com\itheima\web\updateServlet.java
