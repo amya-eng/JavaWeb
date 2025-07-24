@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+
+
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <style>
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
+
+</head>
+<body>
+<div id="app">
+
+    <el-row :gutter="1">
+
+<!--        表单-->
+    <el-form :inline="true" :model="brand" class="demo-form-inline">
+
+        <el-form-item label="当前状态">
+            <el-select v-model="brand.status" placeholder="当前状态">
+                <el-option label="启用" value="1"></el-option>
+                <el-option label="禁用" value="0"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="企业名称">
+            <el-input v-model="brand.companyName" placeholder="企业名称"></el-input>
+        </el-form-item>
+        <el-form-item label="品牌名称">
+            <el-input v-model="brand.brandName" placeholder="品牌名称"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+    </el-form>
+
+    </el-row>
+
+<!--    “批量删除”和“新增”按钮-->
+    <el-row :gutter="1">
+        <el-button type="danger" plain>批量删除</el-button>
+        <el-button type="primary" @click="dialogVisible = true" plain>新增</el-button>
+    </el-row>
+
+<!--    新增弹窗-->
+    <el-dialog
+            title="新增品牌"
+            :visible.sync="dialogVisible"
+            width="30%">
+<!--        弹窗内表单-->
+        <el-form :model="brand"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="品牌名称" prop="brandName">
+                <el-input v-model="brand.brandName"></el-input>
+            </el-form-item>
+            <el-form-item label="企业名称" prop="companyName">
+                <el-input v-model="brand.companyName"></el-input>
+            </el-form-item>
+            <el-form-item label="排序">
+                <el-input v-model="brand.ordered"></el-input>
+            </el-form-item>
+
+            <el-form-item label="备注" prop="description">
+                <el-input type="textarea" v-model="brand.description"></el-input>
+            </el-form-item>
+
+            <el-form-item label="状态" prop="status">
+                <el-switch v-model="brand.status" active-value="1"
+                           inactive-value="0"></el-switch>
+            </el-form-item>
+
+        </el-form>
+
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false; addBrand()">确 定</el-button>
+  </span>
+    </el-dialog>
+
+<!--    表格-->
+    <el-row :gutter="1">
+        <template>
+
+            <el-table
+                    :data="tableData"
+                    style="width: 100%"
+                    :row-class-name="tableRowClassName"
+                    @selection-change="handleSelectionChange">
+<!--                复选框-->
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
+
+<!--                数字编号列-->
+                <el-table-column
+                        type="index"
+                        width="50">
+                </el-table-column>
+
+                <el-table-column
+                        prop="brandName"
+                        label="品牌名称"
+                        align="center"
+                        >
+                </el-table-column>
+                <el-table-column
+                        prop="companyName"
+                        label="企业名称"
+                        align="center"
+                        >
+                </el-table-column>
+                <el-table-column
+                        prop="ordered"
+                        align="center"
+                        label="排序">
+                </el-table-column>
+                <el-table-column
+                        prop="status"
+                        align="center"
+                        label="当前状态">
+                </el-table-column>
+                <el-table-column
+                        align="center"
+                        label="操作">
+                    <el-row>
+                        <el-button type="primary">修改</el-button>
+                        <el-button type="danger">删除</el-button>
+                    </el-row>
+                </el-table-column>
+            </el-table>
+        </template>
+    </el-row>
+
+<!--    分页-->
+    <el-row :gutter="1">
+        <template>
+            <div class="block">
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[5, 10, 15, 20]"
+                        :page-size="80"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="400">
+                </el-pagination>
+            </div>
+        </template>
+    </el-row>
+
+
+
+
+
+
+
+
+</div>
+</body>
+
+<!-- 注意：import Vue before Element -->
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                // 新增弹窗
+                // add: {
+                //     brandName:'',
+                //     companyName:'',
+                //     ordered:'',
+                //     description:'',
+                //     status:''
+                // },
+                // 分页
+                currentPage: 3,
+                // 复选框选中数据集合
+                multipleSelection: [],
+                // 弹窗添加数据
+                dialogVisible: false,
+                //品牌模型数据
+                brand: {
+                    status: '',
+                    companyName: '',
+                    brandName:'',
+                    id:'',
+                    ordered:'',
+                    description:''
+                },
+                // 表格数据
+                tableData: [{
+                    brandName: '华为',
+                    companyName: '华为科技有限公司',
+                    ordered: '100',
+                    status:'1'
+                }, {
+                    brandName: '华为',
+                    companyName: '华为科技有限公司',
+                    ordered: '100',
+                    status:'1'
+                }, {
+                    brandName: '华为',
+                    companyName: '华为科技有限公司',
+                    ordered: '100',
+                    status:'1'
+                }, {
+                    brandName: '华为',
+                    companyName: '华为科技有限公司',
+                    ordered: '100',
+                    status:'1'
+                }]
+            }
+        },
+        methods: {
+            // 查询方法
+            onSubmit() {
+                console.log('submit!');
+            },
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex === 1) {
+                    return 'warning-row';
+                } else if (rowIndex === 3) {
+                    return 'success-row';
+                }
+                return '';
+            },
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+                console.log(this.multipleSelection);
+            },
+            addBrand(){
+                console.log(this.brand);
+            }
+        }
+    })
+</script>
+</html>
